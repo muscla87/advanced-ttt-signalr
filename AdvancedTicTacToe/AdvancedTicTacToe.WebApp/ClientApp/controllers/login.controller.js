@@ -11,9 +11,9 @@
       .module('advancedTicTacToe')
       .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$http', 'navigationService', 'toaster', 'userName'];
+    LoginController.$inject = ['$http', '$templateCache', 'navigationService', 'toaster', 'userName'];
 
-    function LoginController($http, navigationService, toaster, userName) {
+    function LoginController($http, $templateCache, navigationService, toaster, userName) {
         /* jshint validthis:true */
         var vm = this;
 
@@ -31,6 +31,7 @@
                 result = result.data;
                 if (result.Result == "Success") {
                     toaster.pop('success', "", "Logged in successfully");
+                    $templateCache.removeAll(); //To be sure that all templates will be reloaded considering the user logged in
                     navigationService.navigateTo("home");
                 }
                 else if (result.Result == "ValidationError") {
