@@ -1,0 +1,19 @@
+﻿@using AdvancedTicTacToe.WebApp.Models
+@{
+    Layout = null;
+}
+<div class="menu_overlay p1">
+    <div class="menu_container">
+        @if (@User.Identity.IsAuthenticated)
+        {
+            <span>Hi @User.GetSafeUserName(Request, Response)!</span>
+        }
+        <a href="#" class="hvr-sweep-to-right">Play Now!</a>
+        <a href="#" class="hvr-sweep-to-right">Tutorial</a>
+        @if (User.Identity.IsAuthenticated == false)
+        {
+            <a ng-click="homeCtrl.loginClick()" class="hvr-sweep-to-right">Log in</a>
+            @*@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "hvr-sweep-to-right" })*@
+        }
+    </div>
+</div>

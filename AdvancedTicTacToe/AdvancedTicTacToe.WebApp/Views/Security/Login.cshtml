@@ -1,0 +1,54 @@
+﻿@using AdvancedTicTacToe.WebApp.Models
+@model LoginViewModel
+@{
+    Layout = null;
+}
+<div class="menu_overlay p1">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "login_form", name = "loginCtrl.form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div>
+            <input ng-model="loginCtrl.user.UserName" data-val="true" data-val-required="The User Name field is required." id="UserName" name="UserName" placeholder="Username" type="text" value="">
+            <span class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+        </div>
+        <div>
+            <input ng-model="loginCtrl.user.Password" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" placeholder="Password" type="password">
+            <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+        </div>
+        <div>
+            <div>
+                <div class="checkbox">
+                    <input ng-model="loginCtrl.user.RememberMe" data-val="true" data-val-required="The Keep me signed field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true"><input name="RememberMe" type="hidden" value="false">
+                    <label for="RememberMe">Keep me signed</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <a ng-click="loginCtrl.sendLoginForm()" class="login_btn hvr-sweep-to-right">Log in</a>
+
+            </div>
+        </div>
+        <div>
+            <a href="/Template/Security/Register">Register as a new user</a>
+        </div>
+
+        @* Enable this once you have account confirmation enabled for password reset functionality
+            <p>
+                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+            </p>*@
+    }
+    @*<div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>*@
+</div>
+
+<toaster-container toaster-options="{'close-button': true, 'position-class': 'toast-bottom-center'}"></toaster-container>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
