@@ -24,7 +24,12 @@
         vm.cellClicked = onCellClicked;
 
         function onCellClicked(cell) {
-            debugger;
+            for (var i = 0; i < 9; i++) {
+                vm.bigCells[i].isActive = cell.localIndex == i;
+                cell.playerSelection = vm.activePlayer;
+                cell.playerIcon = cell.playerSelection == 1 ? 'glyphicon-remove' : 'glyphicon-unchecked';
+                vm.activePlayer = vm.activePlayer == 1 ? 2 : 1;
+            }
         }
 
 

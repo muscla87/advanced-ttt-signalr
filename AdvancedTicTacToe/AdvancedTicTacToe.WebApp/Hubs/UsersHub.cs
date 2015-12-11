@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AdvancedTicTacToe.WebApp.Hubs
 {
 
-    [Authorize]
+    //[Authorize]
     public class UsersHub : Hub
     {
 
@@ -43,19 +43,21 @@ namespace AdvancedTicTacToe.WebApp.Hubs
 
         public override Task OnConnected()
         {
-
-            string userName = Context.User.Identity.Name;
-            string connectionId = Context.ConnectionId;
-
-            bool firstConnection = OnlineUsersStore.RegisterUserConnection(userName, connectionId);
-
-            if (firstConnection)
+            if (Context.User.Identity.IsAuthenticated)
             {
-                Clients.All.usersListUpdated(new
+                string userName = Context.User.Identity.Name;
+                string connectionId = Context.ConnectionId;
+
+                bool firstConnection = OnlineUsersStore.RegisterUserConnection(userName, connectionId);
+
+                if (firstConnection)
                 {
-                    currentUsersList = OnlineUsersStore.GetConnectedUserNames(),
-                    connectedUserName = userName
-                });
+                    Clients.All.usersListUpdated(new
+                    {
+                        currentUsersList = OnlineUsersStore.GetConnectedUserNames(),
+                        connectedUserName = userName
+                    });
+                }
             }
 
             return base.OnConnected();

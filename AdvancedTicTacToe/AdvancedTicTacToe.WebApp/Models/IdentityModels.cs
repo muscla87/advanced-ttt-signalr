@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace AdvancedTicTacToe.WebApp.Models
 {
@@ -29,5 +31,34 @@ namespace AdvancedTicTacToe.WebApp.Models
         {
             return new ApplicationDbContext();
         }
+    }
+
+    public static class IPrincipalExtension
+    {
+
+        public static string GetSafeUserName(this IPrincipal principal, HttpRequestBase request, HttpResponseBase response)
+        {
+            if (principal.Identity.IsAuthenticated)
+            {
+                return principal.Identity.Name;
+            }
+            else
+            {
+                HttpCookie tmpUserNameCookie = request.Cookies["TempUserName"];
+                if (tmpUserNameCookie != null && !string.IsNullOrEmpty(tmpUserNameCookie.Value))
+                {
+                    return tmpUserNameCookie.Value;
+                }
+                else
+                {
+                    string tmpUserName = "User-" + Guid.NewGuid().ToString().Substring(0, 5);
+                    tmpUserNameCookie = new HttpCookie("TempUserName", tmpUserName);
+                    response.Cookies.Add(tmpUserNameCookie);
+                    return tmpUserName;
+                }
+            }
+
+        }
+
     }
 }

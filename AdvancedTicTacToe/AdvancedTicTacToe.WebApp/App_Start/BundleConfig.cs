@@ -24,19 +24,22 @@ namespace AdvancedTicTacToe.WebApp
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                       "~/Scripts/angular.js",
+                      "~/Scripts/angular-animate.js",
+                      "~/Scripts/angular-route.js",
                       "~/Scripts/angular-signalr-hub.js"));
 
             bundles.Add(new ScriptBundle("~/signalr/library").Include(
                       "~/Scripts/jquery.signalR-2.2.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/thegame")
-                            .IncludeDirectory("~/Scripts/App", "*.js", true));
+                            .IncludeDirectory("~/ClientApp", "*.js", true));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                    "~/Content/bootstrap.css",
                 //"~/Content/hover.css",
                       "~/Content/site.css",
-                      "~/Content/game.css"));
+                      "~/Content/game.css",
+                      "~/Content/login.css"));
         }
     }
 }
