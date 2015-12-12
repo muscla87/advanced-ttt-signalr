@@ -14,7 +14,7 @@
 
     function advancedTicTacToeConfiguration($routeProvider, $locationProvider) {
         $routeProvider.when(AppName + 'login', { templateUrl: '/Template/Security/Login', controller: 'LoginController', controllerAs: 'loginCtrl' });
-        $routeProvider.when(AppName + 'register', { templateUrl: '/Template/Security/Register', controller: 'productListViewModel' });
+        $routeProvider.when(AppName + 'register', { templateUrl: '/Template/Security/Register', controller: 'RegistrationController', controllerAs: 'registerCtrl' });
         $routeProvider.when(AppName + 'home', { templateUrl: '/Template/Game/Index', controller: 'HomeController', controllerAs: 'homeCtrl' });
         $routeProvider.when(AppName + 'play/:gameId', { templateUrl: '/Template/Game/Play', controller: 'SingleGameController', controllerAs: 'singleGameCtrl' });
         $routeProvider.otherwise({ redirectTo: AppName + 'home' });

@@ -99,14 +99,9 @@
         .menu_overlay .menu_container span {
             margin: 10px;
             color: #E7CB3C;
-            /*padding: 30px;*/
-            /*background: white;*/
             font-weight:bold;
-            /*width: 350px;*/
             text-align: center;
             font-size: 3em;
-            /*border: 1px solid #E7CB3C;*/
-            /*box-shadow: 6px 6px 5px #888888;*/
         }
 
         .menu_overlay .menu_container a {
@@ -117,8 +112,6 @@
             width: 300px;
             text-align: center;
             font-size: 2em;
-            box-shadow: 6px 6px 5px #888888;
-            /*border: 1px solid #bca637;*/
         }
 
             .menu_overlay .menu_container a:hover, a:visited, a:link, a:active {

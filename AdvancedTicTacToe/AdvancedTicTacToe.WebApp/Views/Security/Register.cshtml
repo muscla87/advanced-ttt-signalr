@@ -1,57 +1,50 @@
 ﻿@using AdvancedTicTacToe.WebApp.Models
 @model LoginViewModel
+@{
+    Layout = null;
+}
+<div class="menu_overlay">
+    @using (Html.BeginForm("Register", "Security", new { }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "menu_container", name = "registerCtrl.form" }))
+    {
+        <span class="title">@ApplicationConfig.ApplicationName</span>
 
-<div style="height:100%">
-    <div class="menu_overlay show_overlay">
-        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "login_form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="">
-                @Html.LabelFor(m => m.UserName, new { @class = "text_label" })
-                <div class="">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "" })
-                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="">
-                @Html.LabelFor(m => m.Password, new { @class = "text_label" })
-                <div class="">
-                    @Html.PasswordFor(m => m.Password, new { @class = "" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="">
-                <div class="">
-                    <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
-                    </div>
-                </div>
-            </div>
-            <div class="">
-                <div class="">
-                    <a href="javascript:document.getElementById('loginForm').submit()" class="login_btn hvr-sweep-to-right">Log in</a>
-                    @*<input type="submit" value="Log in" class="login_btn hvr-sweep-to-right" />*@
-                </div>
-            </div>
+        <span>Registration</span>
 
-            <div class="">
-                @Html.ActionLink("Register as a new user", "Register")
-            </div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div>
+            <input ng-model="registerCtrl.user.UserName" data-val="true" data-val-required="The User Name field is required." id="UserName" name="UserName" placeholder="Username" type="text" value="">
+            <span class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+        </div>
+        <div>
+            <input ng-model="registerCtrl.user.Password" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" placeholder="Password" type="password">
+            <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+        </div>
+        <div>
+            <input ng-model="registerCtrl.user.ConfirmPassword" data-val="true" data-val-required="The PasswordConfirmation field is required." id="PasswordConfirmation" name="PasswordConfirmation" placeholder="Confirm Password" type="password">
+            <span class="field-validation-valid text-danger" data-valmsg-for="PasswordConfirmation" data-valmsg-replace="true"></span>
+        </div>
+        <div>
+            <input ng-model="registerCtrl.user.Email" data-val="true" data-val-required="The Email field is required." id="Email" name="Email" placeholder="Email" type="email">
+            <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+        </div>
 
-            @* Enable this once you have account confirmation enabled for password reset functionality
-                <p>
-                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                </p>*@
-        }
-    </div>
-    @*<div class="col-md-4">
-            <section id="socialLoginForm">
-                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </section>
-        </div>*@
+        <a class="button hvr-sweep-to-right" ng-hide="registerCtrl.isBusy" ng-click="registerCtrl.sendRegistrationForm()">Register</a>
+
+        <div class="spinner" ng-show="registerCtrl.isBusy">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+
+        <a class="link_button" ng-hide="registerCtrl.isBusy" ng-click="registerCtrl.cancelRegistration()">Nevermind :(</a>
+
+    }
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
+    </footer>
 </div>
+
+<toaster-container toaster-options="{'close-button': true, 'position-class': 'toast-bottom-center'}"></toaster-container>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

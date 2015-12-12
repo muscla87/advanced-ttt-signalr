@@ -11,14 +11,14 @@
       .module('advancedTicTacToe')
       .controller('SingleGameController', singleGameController);
 
-    singleGameController.$inject = ['$scope', 'userName'];
+    singleGameController.$inject = ['$scope', 'userIdentity'];
 
-    function singleGameController($scope, userName) {
+    function singleGameController($scope, userIdentity) {
         /* jshint validthis:true */
         var vm = this;
 
         vm.bigCells = generateEmptyGameData();
-        vm.player1Name = userName;
+        vm.player1Name = userIdentity.userName;
         vm.player2Name = "Select opponent";
         vm.activePlayer = 1;
         vm.cellClicked = onCellClicked;

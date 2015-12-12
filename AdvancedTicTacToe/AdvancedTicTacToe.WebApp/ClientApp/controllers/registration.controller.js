@@ -4,16 +4,16 @@
 
     /**
      * @ngdoc controller
-     * @name advancedTicTacToe.controller:LoginController
-     * @description Controller that manages the login page of the game
+     * @name advancedTicTacToe.controller:RegistrationController
+     * @description Controller that manages the user registration page of the game
      */
     angular
       .module('advancedTicTacToe')
-      .controller('LoginController', LoginController);
+      .controller('RegistrationController', RegistrationController);
 
-    LoginController.$inject = ['$http', '$templateCache', '$timeout', 'navigationService', 'toaster', 'userIdentity'];
+    RegistrationController.$inject = ['$http', '$templateCache', '$timeout', 'navigationService', 'toaster', 'userIdentity'];
 
-    function LoginController($http, $templateCache, $timeout, navigationService, toaster, userIdentity) {
+    function RegistrationController($http, $templateCache, $timeout, navigationService, toaster, userIdentity) {
         /* jshint validthis:true */
 
         if (userIdentity.isAuthenticated) {
@@ -28,31 +28,26 @@
         vm.user = {
             UserName: '',
             Password: '',
-            RememberMe: true
+            ConfirmPassword: '',
+            Email: ''
         };
 
-        vm.registerClick = registerClick;
-        vm.cancelLogin = cancelLogin;
-        vm.sendLoginForm = sendLoginForm;
+        vm.cancelRegistration = cancelRegistration;
+        vm.sendRegistrationForm = sendRegistrationForm;
 
-        function registerClick() {
-            navigationService.navigateTo("register");
-        };
-
-        function cancelLogin() {
+        function cancelRegistration() {
             navigationService.navigateTo("home");
-        };
+        }
 
-        function sendLoginForm() {
+        function sendRegistrationForm() {
 
             var formData = vm.user;
             vm.isBusy = true;
             $timeout(function () {
-                $http.post(navigationService.getFullUrl('Template/Security/Login'), formData).then(function (result) {
+                $http.post(navigationService.getFullUrl('Template/Security/Register'), formData).then(function (result) {
                     vm.isBusy = false;
                     result = result.data;
                     if (result.Result == "Success") {
-                        //toaster.pop('success', "", "Logged in successfully");
                         $templateCache.removeAll(); //To be sure that all templates will be reloaded considering the user logged in
                         navigationService.navigateTo("home");
                     }

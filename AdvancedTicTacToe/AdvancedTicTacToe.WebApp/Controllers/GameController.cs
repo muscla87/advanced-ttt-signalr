@@ -6,6 +6,7 @@ namespace AdvancedTicTacToe.WebApp.Controllers
     {
         public ActionResult Index()
         {
+            System.Threading.Thread.Sleep(500);
             return View();
         }
 

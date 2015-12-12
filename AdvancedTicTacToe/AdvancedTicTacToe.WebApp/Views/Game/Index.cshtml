@@ -2,18 +2,37 @@
 @{
     Layout = null;
 }
-<div class="menu_overlay p1">
+<div class="menu_overlay">
     <div class="menu_container">
-        @if (@User.Identity.IsAuthenticated)
-        {
-            <span>Hi @User.GetSafeUserName(Request, Response)!</span>
-        }
-        <a href="#" class="hvr-sweep-to-right">Play Now!</a>
-        <a href="#" class="hvr-sweep-to-right">Tutorial</a>
+
+        <span class="title">@ApplicationConfig.ApplicationName</span>
+
+        @*@if (@User.Identity.IsAuthenticated)*@
+        @*{*@
+        <span>Hi @User.GetSafeUserName(Request, Response)!</span>
+        @*}*@
+        <a class="button hvr-sweep-to-right" href="#play/ds" ng-hide="homeCtrl.isBusy">Play Now!</a>
+        <a class="button hvr-sweep-to-right" href="#" ng-hide="homeCtrl.isBusy">Options</a>
         @if (User.Identity.IsAuthenticated == false)
         {
-            <a ng-click="homeCtrl.loginClick()" class="hvr-sweep-to-right">Log in</a>
+            <a class="link_button" ng-click="homeCtrl.loginClick()">Did we meet before?</a>
+            @*<a class="button hvr-sweep-to-right" ng-click="homeCtrl.loginClick()" ng-hide="homeCtrl.isBusy">Log in</a>*@
             @*@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "hvr-sweep-to-right" })*@
         }
+        else
+        {
+            <a class="button hvr-sweep-to-right" ng-click="homeCtrl.logoutClick()" ng-hide="homeCtrl.isBusy">Log out</a>
+        }
+
+        <div class="spinner" ng-show="homeCtrl.isBusy">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+
     </div>
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
+    </footer>
+
 </div>

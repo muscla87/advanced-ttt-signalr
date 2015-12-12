@@ -34,12 +34,15 @@ namespace AdvancedTicTacToe.WebApp
             bundles.Add(new ScriptBundle("~/bundles/thegame")
                             .IncludeDirectory("~/ClientApp", "*.js", true));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                    "~/Content/bootstrap.css",
+            bundles.Add(new StyleBundle("~/Content/css___").Include(
+                //"~/Content/bootstrap.css",
                 //"~/Content/hover.css",
                       "~/Content/site.css",
                       "~/Content/game.css",
                       "~/Content/login.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/main.css"));
         }
     }
 }

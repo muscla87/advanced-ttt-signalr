@@ -7,8 +7,15 @@
     /*align-items: center;*/
     justify-content: space-around;
     padding: 20px 60px;
-    /*box-shadow: 6px 6px 5px #888888;*/
 }
+
+.menu_overlay .title_span {
+            margin: 10px;
+            color: #E7CB3C;
+            font-weight:bold;
+            text-align: center;
+            font-size: 3em;
+        }
 
     .menu_overlay .login_form .text_label {
         margin: 10px;
@@ -28,7 +35,6 @@
         text-align: left;
         font-size: 2em;
         border: 0px solid #E7CB3C;
-        box-shadow: 6px 6px 5px #888888;
     }
 
     .menu_overlay .login_form .checkbox input {
@@ -52,7 +58,6 @@
         width: 300px;
         text-align: center;
         font-size: 2em;
-        box-shadow: 6px 6px 5px #888888;
     }
 
     .menu_overlay .login_form a {

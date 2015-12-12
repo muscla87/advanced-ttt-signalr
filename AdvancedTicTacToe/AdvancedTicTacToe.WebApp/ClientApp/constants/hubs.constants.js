@@ -4,12 +4,12 @@
 
     /**
      * @ngdoc service
-     * @name advancedTicTacToe.service:userName
-     * @description Constant to expose the current userName
+     * @name advancedTicTacToe.service:userIdentity
+     * @description Constant to expose the current userIdentity
      */
     angular
       .module('advancedTicTacToe')
-      .constant("userName", window.userName);
+      .constant("userIdentity", window.userIdentity);
 
     /**
      * @ngdoc service

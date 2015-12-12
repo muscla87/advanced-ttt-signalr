@@ -10,9 +10,9 @@
       .module('advancedTicTacToe')
       .controller('RightPanelController', RightPanelController);
 
-    RightPanelController.$inject = ['$scope', 'usersService', 'userName'/*, 'singleMatch'*/];
+    RightPanelController.$inject = ['$scope', 'usersService', 'userIdentity'/*, 'singleMatch'*/];
 
-    function RightPanelController($scope, usersService, userName/*, singleMatch*/) {
+    function RightPanelController($scope, usersService, userIdentity/*, singleMatch*/) {
         var vm = this;
 
         vm.onlineUsers = [];

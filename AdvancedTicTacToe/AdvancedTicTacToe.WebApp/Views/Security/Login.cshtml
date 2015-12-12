@@ -3,9 +3,11 @@
 @{
     Layout = null;
 }
-<div class="menu_overlay p1">
-    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "login_form", name = "loginCtrl.form" }))
+<div class="menu_overlay">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "menu_container", name = "loginCtrl.form" }))
     {
+        <span class="title">@ApplicationConfig.ApplicationName</span>
+        <span>Did we meet before? ;)</span>
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div>
@@ -16,23 +18,27 @@
             <input ng-model="loginCtrl.user.Password" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" placeholder="Password" type="password">
             <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
         </div>
-        <div>
-            <div>
-                <div class="checkbox">
-                    <input ng-model="loginCtrl.user.RememberMe" data-val="true" data-val-required="The Keep me signed field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true"><input name="RememberMe" type="hidden" value="false">
-                    <label for="RememberMe">Keep me signed</label>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div>
-                <a ng-click="loginCtrl.sendLoginForm()" class="login_btn hvr-sweep-to-right">Log in</a>
 
-            </div>
+        <a class="button hvr-sweep-to-right" ng-hide="loginCtrl.isBusy" ng-click="loginCtrl.sendLoginForm()">Log in</a>
+
+        <div class="spinner" ng-show="loginCtrl.isBusy">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
         </div>
-        <div>
-            <a href="/Template/Security/Register">Register as a new user</a>
-        </div>
+
+        @*<div>
+                <div>
+                    <div class="checkbox">
+                        <input ng-model="loginCtrl.user.RememberMe" data-val="true" data-val-required="The Keep me signed field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true"><input name="RememberMe" type="hidden" value="false">
+                        <label for="RememberMe">Keep me signed</label>
+                    </div>
+                </div>
+            </div>*@
+
+        <a class="link_button" ng-hide="loginCtrl.isBusy" ng-click="loginCtrl.registerClick()">Register as a new user</a>
+
+        <a class="link_button" ng-hide="loginCtrl.isBusy" ng-click="loginCtrl.cancelLogin()">Nevermind :(</a>
+
 
         @* Enable this once you have account confirmation enabled for password reset functionality
             <p>
@@ -44,6 +50,9 @@
                 @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </section>
         </div>*@
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
+    </footer>
 </div>
 
 <toaster-container toaster-options="{'close-button': true, 'position-class': 'toast-bottom-center'}"></toaster-container>

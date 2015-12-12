@@ -9,9 +9,9 @@
           .module('advancedTicTacToe')
           .factory('navigationService', navigationService);
 
-        navigationService.$inject = ['$location'];
+        navigationService.$inject = ['$location', '$window'];
 
-        function navigationService($location) {
+        function navigationService($location, $window) {
             var service = {
                 navigateTo: navigateTo,
                 getFullUrl: getFullUrl
@@ -20,8 +20,13 @@
             return service;
             ////////////////
 
-            function navigateTo(path) {
-                $location.path(AppName + path);
+            function navigateTo(path, refreshPage) {
+                if (refreshPage) {
+                    $window.location.href = AppName + path;
+                }
+                else {
+                    $location.path(AppName + path);
+                }
             }
 
             function getFullUrl(path) {
