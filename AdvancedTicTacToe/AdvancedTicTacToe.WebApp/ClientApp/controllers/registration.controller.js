@@ -17,7 +17,7 @@
         /* jshint validthis:true */
 
         if (userIdentity.isAuthenticated) {
-            navigationService.navigateTo("home");
+            navigationService.navigateTo("home", { addCacheBust: true });
             return;
         }
 
@@ -36,7 +36,7 @@
         vm.sendRegistrationForm = sendRegistrationForm;
 
         function cancelRegistration() {
-            navigationService.navigateTo("home");
+            navigationService.navigateTo("home", { addCacheBust: true });
         }
 
         function sendRegistrationForm() {
@@ -45,22 +45,24 @@
             vm.isBusy = true;
             $timeout(function () {
                 $http.post(navigationService.getFullUrl('Template/Security/Register'), formData).then(function (result) {
-                    vm.isBusy = false;
                     result = result.data;
                     if (result.Result == "Success") {
                         $templateCache.removeAll(); //To be sure that all templates will be reloaded considering the user logged in
-                        navigationService.navigateTo("home");
-                    }
-                    else if (result.Result == "ValidationError") {
-                        for (var i = 0; i < result.Errors.length; i++) {
-                            toaster.pop('warning', "", result.Errors[i].Error);
-                        }
-                    }
-                    else if (result.Result == "Failed") {
-                        toaster.pop('error', "", result.Error);
+                        navigationService.navigateTo("play", { refreshPage: true, addCacheBust: true });
                     }
                     else {
-                        toaster.pop('error', "", "Unknown error");
+                        vm.isBusy = false;
+                        if (result.Result == "ValidationError") {
+                            for (var i = 0; i < result.Errors.length; i++) {
+                                toaster.pop('warning', "", result.Errors[i].Error);
+                            }
+                        }
+                        else if (result.Result == "Failed") {
+                            toaster.pop('error', "", result.Error);
+                        }
+                        else {
+                            toaster.pop('error', "", "Unknown error");
+                        }
                     }
                 });
             }, 1000); //add fixed timeout to avoid glitchy loading animation

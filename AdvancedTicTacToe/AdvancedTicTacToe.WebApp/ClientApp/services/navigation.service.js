@@ -20,12 +20,17 @@
             return service;
             ////////////////
 
-            function navigateTo(path, refreshPage) {
-                if (refreshPage) {
-                    $window.location.href = AppName + path;
+            function navigateTo(path, options) {
+                var defaultOptions = { refreshPage: false, addCacheBust: false };
+                options = angular.extend(defaultOptions, options);
+
+                var url = AppName + path + (options.addCacheBust ? "/" + (new Date().getTime()) : "");
+
+                if (defaultOptions.refreshPage) {
+                    $window.location.href = url;
                 }
                 else {
-                    $location.path(AppName + path);
+                    $location.path(url);
                 }
             }
 

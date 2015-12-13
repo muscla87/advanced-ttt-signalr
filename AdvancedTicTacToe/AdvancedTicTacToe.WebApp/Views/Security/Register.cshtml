@@ -6,8 +6,6 @@
 <div class="menu_overlay">
     @using (Html.BeginForm("Register", "Security", new { }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "menu_container", name = "registerCtrl.form" }))
     {
-        <span class="title">@ApplicationConfig.ApplicationName</span>
-
         <span>Registration</span>
 
         @Html.AntiForgeryToken()
@@ -39,9 +37,6 @@
         <a class="link_button" ng-hide="registerCtrl.isBusy" ng-click="registerCtrl.cancelRegistration()">Nevermind :(</a>
 
     }
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
-    </footer>
 </div>
 
 <toaster-container toaster-options="{'close-button': true, 'position-class': 'toast-bottom-center'}"></toaster-container>

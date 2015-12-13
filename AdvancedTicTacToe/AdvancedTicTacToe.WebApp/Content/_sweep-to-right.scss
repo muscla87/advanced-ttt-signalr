@@ -1,18 +1,9 @@
 ﻿/* Sweep To Right */
+
 .hvr-sweep-to-right {
     display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: translateZ(0);
     transform: translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative;
-    -webkit-transition-property: color;
-    transition-property: color;
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
+   
 }
 
 .hvr-sweep-to-right:before {
@@ -23,7 +14,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: #d9b915;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
     -webkit-transform-origin: 0 50%;
@@ -43,4 +33,20 @@
 .hvr-sweep-to-right:hover:before, .hvr-sweep-to-right:focus:before, .hvr-sweep-to-right:active:before {
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
+}
+
+.hvr-sweep-to-right:before {
+    background: $main-hover-color;
+}
+
+.hvr-sweep-to-right.green:before {
+    background: $log-in-hover-color;
+}
+
+.hvr-sweep-to-right.red:before {
+    background: $log-off-hover-color;
+}
+
+.hvr-sweep-to-right.gray:before {
+    background: $options-hover-color;
 }

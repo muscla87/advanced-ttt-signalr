@@ -19,8 +19,8 @@
 
         vm.isBusy = false;
 
-        vm.loginClick = function () {
-            navigationService.navigateTo("login");
+        vm.navigateTo = function (page) {
+            navigationService.navigateTo(page);
         };
 
         vm.logoutClick = function () {

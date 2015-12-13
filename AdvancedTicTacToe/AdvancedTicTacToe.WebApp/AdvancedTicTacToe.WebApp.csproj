@@ -198,9 +198,6 @@
     <Content Include="ClientApp\controllers\login.controller.js" />
     <Content Include="ClientApp\controllers\home.controller.js" />
     <Content Include="ClientApp\services\navigation.service.js" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\login.css" />
     <Content Include="Content\game.css" />
     <Content Include="Content\hover.css" />
     <Content Include="Content\main.css">
@@ -223,7 +220,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="ClientApp\constants\hubs.constants.js" />
-    <Content Include="ClientApp\controllers\rightPanel.controller.js" />
+    <Content Include="ClientApp\controllers\playHome.controller.js" />
     <Content Include="ClientApp\controllers\singleGame.controller.js" />
     <Content Include="ClientApp\services\statistics.service.js" />
     <Content Include="ClientApp\services\users.service.js" />
@@ -246,6 +243,8 @@
     <Content Include="Content\_common.scss" />
     <Content Include="Content\_sweep-to-right.scss" />
     <Content Include="Content\_spinner.scss" />
+    <Content Include="Content\_game_home.scss" />
+    <Content Include="Content\_game_match.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="ClientApp\game.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -298,6 +297,7 @@
     <Content Include="Views\Game\Play.cshtml" />
     <Content Include="Views\Security\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Game\Match.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdvancedTicTacToe.Model\AdvancedTicTacToe.Model.csproj">

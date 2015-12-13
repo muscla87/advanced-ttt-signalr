@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -38,23 +39,56 @@ namespace AdvancedTicTacToe.WebApp.Models
 
         public static string GetSafeUserName(this IPrincipal principal, HttpRequestBase request, HttpResponseBase response)
         {
+
+            HttpCookie tmpUserNameCookie = request.Cookies["TempUserName"];
+            string tmpUserNameInCookie = null;
+            if (tmpUserNameCookie != null && !string.IsNullOrEmpty(tmpUserNameCookie.Value))
+            {
+                tmpUserNameInCookie = tmpUserNameCookie.Value;
+            }
+
+            return GetSafeUserName(principal, tmpUserNameInCookie, response);
+
+        }
+
+        public static string GetSafeUserName(this IPrincipal principal, IRequest request)
+        {
+            string tmpUserNameInCookie = null;
+            if (request.Cookies.ContainsKey("TempUserName"))
+            {
+                Cookie tmpUserNameCookie = request.Cookies["TempUserName"];
+                if (tmpUserNameCookie != null && !string.IsNullOrEmpty(tmpUserNameCookie.Value))
+                {
+                    tmpUserNameInCookie = tmpUserNameCookie.Value;
+                }
+            }
+            return GetSafeUserName(principal, tmpUserNameInCookie);
+
+        }
+
+
+        private static string GetSafeUserName(this IPrincipal principal, string tmpUserNameFromCookie, HttpResponseBase response = null)
+        {
             if (principal.Identity.IsAuthenticated)
             {
                 return principal.Identity.Name;
             }
             else
             {
-                HttpCookie tmpUserNameCookie = request.Cookies["TempUserName"];
-                if (tmpUserNameCookie != null && !string.IsNullOrEmpty(tmpUserNameCookie.Value))
+                if (tmpUserNameFromCookie != null && !string.IsNullOrEmpty(tmpUserNameFromCookie))
                 {
-                    return tmpUserNameCookie.Value;
+                    return tmpUserNameFromCookie;
+                }
+                else if (response != null)
+                {
+                    string tmpUserName = "User-" + Guid.NewGuid().ToString().Substring(0, 5);
+                    var tmpUserNameCookie = new HttpCookie("TempUserName", tmpUserName);
+                    response.Cookies.Add(tmpUserNameCookie);
+                    return tmpUserName;
                 }
                 else
                 {
-                    string tmpUserName = "User-" + Guid.NewGuid().ToString().Substring(0, 5);
-                    tmpUserNameCookie = new HttpCookie("TempUserName", tmpUserName);
-                    response.Cookies.Add(tmpUserNameCookie);
-                    return tmpUserName;
+                    return null;
                 }
             }
 

@@ -1,4 +1,5 @@
 ﻿using AdvancedTicTacToe.Model.User;
+using AdvancedTicTacToe.WebApp.Models;
 using Microsoft.AspNet.SignalR;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,11 +44,11 @@ namespace AdvancedTicTacToe.WebApp.Hubs
 
         public override Task OnConnected()
         {
-            if (Context.User.Identity.IsAuthenticated)
-            {
-                string userName = Context.User.Identity.Name;
-                string connectionId = Context.ConnectionId;
 
+            string userName = Context.User.GetSafeUserName(Context.Request);
+            string connectionId = Context.ConnectionId;
+            if (!string.IsNullOrEmpty(userName))
+            {
                 bool firstConnection = OnlineUsersStore.RegisterUserConnection(userName, connectionId);
 
                 if (firstConnection)
@@ -59,27 +60,28 @@ namespace AdvancedTicTacToe.WebApp.Hubs
                     });
                 }
             }
-
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
 
-            string userName = Context.User.Identity.Name;
-            string connectionId = Context.ConnectionId;
-
-            bool allConnectionsClosed = OnlineUsersStore.RegisterUserDisconnection(userName, connectionId);
-
-            if (allConnectionsClosed)
+            string userName = Context.User.GetSafeUserName(Context.Request);
+            if (!string.IsNullOrEmpty(userName))
             {
-                Clients.All.usersListUpdated(new
-                {
-                    currentUsersList = OnlineUsersStore.GetConnectedUserNames(),
-                    disconnectedUserName = userName
-                });
-            }
+                string connectionId = Context.ConnectionId;
 
+                bool allConnectionsClosed = OnlineUsersStore.RegisterUserDisconnection(userName, connectionId);
+
+                if (allConnectionsClosed)
+                {
+                    Clients.All.usersListUpdated(new
+                    {
+                        currentUsersList = OnlineUsersStore.GetConnectedUserNames(),
+                        disconnectedUserName = userName
+                    });
+                }
+            }
             return base.OnDisconnected(stopCalled);
         }
 

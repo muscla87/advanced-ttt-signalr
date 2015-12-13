@@ -6,7 +6,6 @@
 <div class="menu_overlay">
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm", role = "form", @class = "menu_container", name = "loginCtrl.form" }))
     {
-        <span class="title">@ApplicationConfig.ApplicationName</span>
         <span>Did we meet before? ;)</span>
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -50,9 +49,6 @@
                 @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </section>
         </div>*@
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
-    </footer>
 </div>
 
 <toaster-container toaster-options="{'close-button': true, 'position-class': 'toast-bottom-center'}"></toaster-container>

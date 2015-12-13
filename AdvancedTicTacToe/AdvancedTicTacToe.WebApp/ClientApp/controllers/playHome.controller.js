@@ -3,20 +3,23 @@
 
     /**
      * @ngdoc controller
-     * @name advancedTicTacToe.controller:RightPanelController
+     * @name advancedTicTacToe.controller:PlayHomeController
      * @description Controller that manages the right panel section of the app which includes Online Users and Live Statistics
      */
     angular
       .module('advancedTicTacToe')
-      .controller('RightPanelController', RightPanelController);
+      .controller('PlayHomeController', PlayHomeController);
 
-    RightPanelController.$inject = ['$scope', 'usersService', 'userIdentity'/*, 'singleMatch'*/];
+    PlayHomeController.$inject = ['$scope', '$http', '$templateCache', 'navigationService', 'usersService', 'userIdentity'/*, 'singleMatch'*/];
 
-    function RightPanelController($scope, usersService, userIdentity/*, singleMatch*/) {
+    function PlayHomeController($scope, $http, $templateCache, navigationService, usersService, userIdentity/*, singleMatch*/) {
         var vm = this;
 
         vm.onlineUsers = [];
+        //methods
         vm.playMatch = playMatch;
+        vm.signOff = signOff;
+        vm.navigateTo = navigateTo;
 
 
         activate();
@@ -43,12 +46,26 @@
             });
         }
 
+        function navigateTo(page) {
+            navigationService.navigateTo(page);
+        };
+
+        function signOff() {
+            vm.isBusy = true;
+            var logoutUrl = navigationService.getFullUrl("template/security/logoff");
+
+            var postAction = $http.post(logoutUrl, {});
+            postAction.then(function () {
+                navigationService.navigateTo("play", { refreshPage: true, addCacheBust: true });
+            });
+
+        };
+
         function playMatch(user) {
             debugger;
         }
 
         function convertToUsers(userNames) {
-
             var users = [];
 
             $.each(userNames, function (i, item) {
@@ -56,7 +73,7 @@
                 users.push({
                     userName: item,
                     isPlaying: false,
-                    isMe: item == userName
+                    isMe: item == userIdentity.userName
                 });
 
             });

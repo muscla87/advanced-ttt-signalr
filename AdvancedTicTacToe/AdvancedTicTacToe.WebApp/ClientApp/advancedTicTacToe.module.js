@@ -15,9 +15,10 @@
     function advancedTicTacToeConfiguration($routeProvider, $locationProvider) {
         $routeProvider.when(AppName + 'login', { templateUrl: '/Template/Security/Login', controller: 'LoginController', controllerAs: 'loginCtrl' });
         $routeProvider.when(AppName + 'register', { templateUrl: '/Template/Security/Register', controller: 'RegistrationController', controllerAs: 'registerCtrl' });
-        $routeProvider.when(AppName + 'home', { templateUrl: '/Template/Game/Index', controller: 'HomeController', controllerAs: 'homeCtrl' });
-        $routeProvider.when(AppName + 'play/:gameId', { templateUrl: '/Template/Game/Play', controller: 'SingleGameController', controllerAs: 'singleGameCtrl' });
-        $routeProvider.otherwise({ redirectTo: AppName + 'home' });
+        $routeProvider.when(AppName + 'play/:bustId?', { templateUrl: function (params) { return '/Template/Game/Index?bust=' + params.bustId; }, controller: 'PlayHomeController', controllerAs: 'playHomeCtrl' });
+        //$routeProvider.when(AppName + 'play', { templateUrl: '/Template/Game/Play', controller: 'PlayHomeController', controllerAs: 'playHomeCtrl' });
+        $routeProvider.when(AppName + 'game/:gameId', { templateUrl: '/Template/Game/Play', controller: 'SingleGameController', controllerAs: 'singleGameCtrl' });
+        $routeProvider.otherwise({ redirectTo: AppName + 'play' });
         $locationProvider.html5Mode(true);
     }
 })();

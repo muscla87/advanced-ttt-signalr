@@ -1,25 +1,36 @@
 ﻿@using AdvancedTicTacToe.WebApp.Models
 
-<div class="menu_overlay" ng-show="loadingRouteCtrl.isRouteLoading">
-    <div class="menu_container">
 
-        <span class="title">@ApplicationConfig.ApplicationName</span>
-        loading...
-        <div class="spinner">
-            <div class="cube1"></div>
-            <div class="cube2"></div>
+<header class="floating">
+    <span class="title">@ApplicationConfig.ApplicationName</span>
+</header>
+<header>
+    <span class="title">@ApplicationConfig.ApplicationName</span>
+</header>
+
+<!--Loading screen content-->
+<div class="view_container" ng-show="loadingRouteCtrl.isRouteLoading">
+    <div class="menu_overlay">
+        <div class="menu_container">
+            loading...
+            <div class="spinner">
+                <div class="cube1"></div>
+                <div class="cube2"></div>
+            </div>
+
         </div>
-
     </div>
-
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
-    </footer>
 </div>
 
-<div ng-if='!isRouteLoading' ng-view style="height:100%;">
+
+<!--Angular js main view container-->
+<div ng-if='!isRouteLoading' ng-view class="view_container">
 
 </div>
+
+<footer>
+    <span>&copy; @DateTime.Now.Year - Claudio Musumeci</span>
+</footer>
 
 @*<div class="col-md-3" ng-controller="RightPanelController as rightPanelCtrl">
 

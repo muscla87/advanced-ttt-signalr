@@ -2,37 +2,98 @@
 @{
     Layout = null;
 }
-<div class="menu_overlay">
+<div class="menu_overlay top-align" ng-hide="playHomeCtrl.isBusy">
+
+    <div class="menu_container game_home">
+
+        <div class="friends_list">
+            <h2>Hi <span>@User.GetSafeUserName(Request, Response)</span> !</h2>
+            <div class="friends_list_item">
+                <div>
+                    <i class="fa fa-gamepad"></i>
+                    <span>Random match</span>
+                </div>
+                <span class="item_buttons">
+                    <a class="small_button play_button hvr-sweep-to-right" ng-click="playHomeCtrl.playMatch(user)">play<i class="fa fa-play-circle"></i></a>
+                </span>
+            </div>
+
+            <div class="friends_list_item">
+                <div>
+                    <i class="fa fa-book"></i>
+                    <span>How to play</span>
+                </div>
+                <span class="item_buttons">
+                    <a class="small_button play_button hvr-sweep-to-right" ng-click="playHomeCtrl.playMatch(user)">learn<i class="fa fa-play-circle"></i></a>
+                </span>
+            </div>
+
+
+
+
+            @if (User.Identity.IsAuthenticated == false)
+            {
+                <div class="friends_list_item">
+                    <div>
+                        <i class="fa fa-user-secret"></i>
+                        <span>New on this place?</span>
+                    </div>
+                    <span class="item_buttons">
+                        <a class="small_button options_button hvr-sweep-to-right gray" ng-click="playHomeCtrl.navigateTo('register')">sign up<i class="fa fa-user-plus"></i></a>
+                    </span>
+                </div>
+                <div class="friends_list_item">
+                    <div>
+                        <i class="fa fa-sign-in"></i>
+                        <span>Log in</span>
+                    </div>
+                    <span class="item_buttons">
+                        <a class="small_button login_button hvr-sweep-to-right green" ng-click="playHomeCtrl.navigateTo('login')">enter<i class="fa fa-sign-in"></i></a>
+                    </span>
+                </div>
+            }
+            else
+            {
+                <div class="friends_list_item">
+                    <div>
+                        <i class="fa fa-sign-out"></i>
+                        <span>Log off</span>
+                    </div>
+                    <span class="item_buttons">
+                        <a class="small_button leave_button hvr-sweep-to-right red" ng-click="playHomeCtrl.signOff()">leave<i class="fa fa-sign-out"></i></a>
+                    </span>
+                </div>
+            }
+
+
+        </div>
+
+        <br />
+
+        <div class="friends_list">
+            <h2>Online Friends ({{playHomeCtrl.onlineUsers.length}})</h2>
+            <div ng-repeat="user in playHomeCtrl.onlineUsers" class="friends_list_item">
+
+                <div>
+                    <i class="fa fa-user"></i>
+                    <span>{{user.userName}}</span>
+                </div>
+                <span class="item_buttons" ng-show="user.isMe">busy</span>
+                <span class="item_buttons" ng-hide="user.isPlaying || user.isMe">
+                    <a class="small_button play_button hvr-sweep-to-right" ng-click="playHomeCtrl.playMatch(user)">play<i class="fa fa-play-circle"></i></a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="menu_overlay" ng-show="playHomeCtrl.isBusy">
     <div class="menu_container">
-
-        <span class="title">@ApplicationConfig.ApplicationName</span>
-
-        @*@if (@User.Identity.IsAuthenticated)*@
-        @*{*@
-        <span>Hi @User.GetSafeUserName(Request, Response)!</span>
-        @*}*@
-        <a class="button hvr-sweep-to-right" href="#play/ds" ng-hide="homeCtrl.isBusy">Play Now!</a>
-        <a class="button hvr-sweep-to-right" href="#" ng-hide="homeCtrl.isBusy">Options</a>
-        @if (User.Identity.IsAuthenticated == false)
-        {
-            <a class="link_button" ng-click="homeCtrl.loginClick()">Did we meet before?</a>
-            @*<a class="button hvr-sweep-to-right" ng-click="homeCtrl.loginClick()" ng-hide="homeCtrl.isBusy">Log in</a>*@
-            @*@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "hvr-sweep-to-right" })*@
-        }
-        else
-        {
-            <a class="button hvr-sweep-to-right" ng-click="homeCtrl.logoutClick()" ng-hide="homeCtrl.isBusy">Log out</a>
-        }
-
-        <div class="spinner" ng-show="homeCtrl.isBusy">
+        loading...
+        <div class="spinner">
             <div class="cube1"></div>
             <div class="cube2"></div>
         </div>
 
     </div>
-
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Claudio Musumeci</p>
-    </footer>
-
 </div>

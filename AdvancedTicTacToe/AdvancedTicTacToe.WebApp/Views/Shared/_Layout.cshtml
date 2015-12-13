@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ApplicationConfig.ApplicationName</title>
     <base href="@Url.Content("~")">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu+Condensed|Architects+Daughter' rel='stylesheet' type='text/css'>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script type="text/javascript">
         window.userIdentity = {
-            userName:'@User.Identity.GetUserName()',
+            userName:'@User.GetSafeUserName(Request, Response)',
             isAuthenticated: @User.Identity.IsAuthenticated.ToString().ToLower()
             };
     </script>
