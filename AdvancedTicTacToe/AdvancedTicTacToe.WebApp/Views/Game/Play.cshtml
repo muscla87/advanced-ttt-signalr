@@ -1,23 +1,33 @@
 ﻿@{
     Layout = null;
 }
-<div class="board_container" ng-class="{p1_active_content: singleGameCtrl.activePlayer == 1, p2_active_content: singleGameCtrl.activePlayer == 2}">
 
-    @*<div class="game_players_header">
-            <div class="player1_header">
-                <span class="glyphicon glyphicon-remove font_icon_big"></span>
-                {{singleGameCtrl.player1Name}}
-            </div>
-            <div class="player2_header">
-                {{singleGameCtrl.player2Name}}
-                <span class="glyphicon glyphicon-unchecked font_icon_big player2_color"></span>
+<div class="game_match">
+    <div class="game_info">
+        <div class="player_marker" ng-class="{p1: singleGameCtrl.activePlayerIndex == 0}">
+            <i class="player_icon fa fa-times"></i>
+            <span>{{singleGameCtrl.player1.name}}</span>
+            <div class="power_ups">
+                <i ng-repeat="powerUp in singleGameCtrl.player1.powerUps" class="fa {{powerUp}}"></i>
             </div>
         </div>
-        <div>&nbsp;</div>*@
-    <div class="board">
-        <div ng-repeat="bigCell in singleGameCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
-            <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-click="singleGameCtrl.cellClicked(smallCell)" ng-class="{p1: smallCell.playerSelection == 1, p2: smallCell.playerSelection == 2}">
-                <span class="glyphicon" ng-class="smallCell.playerIcon"></span>
+
+        <div class="player_marker" ng-class="{p2: singleGameCtrl.activePlayerIndex == 1}">
+            <i class="player_icon fa fa-circle-o" "></i>
+            <span>{{singleGameCtrl.player2.name}}</span>
+            <div class="power_ups">
+                <i ng-repeat="powerUp in singleGameCtrl.player2.powerUps" class="fa {{powerUp}}"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="board_container">
+        <div class="board">
+            <div ng-repeat="bigCell in singleGameCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
+                <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-click="singleGameCtrl.cellClicked(smallCell)" ng-class="smallCell.owner.colorClass">
+                    <span class="fa" ng-class="smallCell.playerIcon"></span>
+                </div>
             </div>
         </div>
     </div>

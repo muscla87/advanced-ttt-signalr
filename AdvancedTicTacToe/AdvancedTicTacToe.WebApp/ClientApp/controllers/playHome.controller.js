@@ -47,7 +47,7 @@
         }
 
         function navigateTo(page) {
-            navigationService.navigateTo(page);
+            navigationService.navigateTo(page, { addCacheBust: true });
         };
 
         function signOff() {
