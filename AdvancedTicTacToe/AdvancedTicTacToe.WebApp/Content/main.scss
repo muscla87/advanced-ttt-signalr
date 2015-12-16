@@ -1,7 +1,13 @@
 ﻿@import 'colors';
 @import 'common';
 @import 'spinner';  
-@import 'sweep-to-right';
 @import 'game_home';
 @import 'game_match';
  
+
+@import 'effects/sweep-to-right';
+@import 'effects/buzz-out';
+@import 'effects/pop';
+@import 'effects/push';
+@import 'effects/wobble-top-to-right';
+@import 'effects/ripple-out';

@@ -12,7 +12,8 @@ namespace AdvancedTicTacToe.WebApp.Hubs
     public class UsersHub : Hub
     {
 
-        private static readonly IOnlineUsersStore OnlineUsersStore = new OnlineUsersStore();
+        //TODO: use IoC
+        public static readonly IOnlineUsersStore OnlineUsersStore = new OnlineUsersStore();
 
 
         public void Send(string message)
@@ -67,10 +68,9 @@ namespace AdvancedTicTacToe.WebApp.Hubs
         {
 
             string userName = Context.User.GetSafeUserName(Context.Request);
+            string connectionId = Context.ConnectionId;
             if (!string.IsNullOrEmpty(userName))
             {
-                string connectionId = Context.ConnectionId;
-
                 bool allConnectionsClosed = OnlineUsersStore.RegisterUserDisconnection(userName, connectionId);
 
                 if (allConnectionsClosed)

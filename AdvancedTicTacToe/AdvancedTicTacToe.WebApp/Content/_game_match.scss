@@ -2,7 +2,6 @@
 $dark-color: #555555;
 $ligth-color: #606060;
 
-
 $small-cell-border-color: $ligth-color;
 
 $small-cell-border-color-active: black;
@@ -21,15 +20,49 @@ $first-step-min-width: 1020px;
 
 .p1 {
     background-color: $p1_color !important;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
 }
 
 .p2 {
     background-color: $p2_color !important;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
 }
 
+.game_options {
+    width: 100%;
+    background-color: rgba(0, 255, 255, 0.58);
+    z-index: 100;
+}
 
+.game_init {
 
+}
 
+.header_button {
+    position: fixed;
+    top: 6px;
+    z-index: 2000;
+    display: flex;
+    font-size: 1.8em;
+
+    a {
+        padding: 2px 5px;
+    }
+}
+
+.left_header_button {
+    @extend.header_button;
+    left: 10px;
+}
+
+.right_header_button {
+    @extend.header_button;
+    right: 10px;
+}
 
 .game_match {
     min-width: 450px;
@@ -43,9 +76,6 @@ $first-step-min-width: 1020px;
         flex-direction: column;
         justify-content: unset;
     }
-    /*@media (max-width: 1120px) {
-        flex-direction: column;
-    }*/
 }
 
 .game_info {
@@ -62,7 +92,7 @@ $first-step-min-width: 1020px;
     }
 
     .player_marker {
-        height:62px;
+        height: 62px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -71,8 +101,7 @@ $first-step-min-width: 1020px;
 
         @media (max-width: $first-step-min-width) {
             width: 50%;
-            /*flex-grow: 1;*/
-            /*margin: 5px;*/
+
             &:last-child {
                 flex-direction: row-reverse;
 
@@ -90,19 +119,9 @@ $first-step-min-width: 1020px;
             text-align: center;
             width: 7vmin;
             font-size: 35px;
-            /*@media (max-width: $first-step-min-width) {
-                font-size: 8vmin;
-                width: 8vmin;
-            }
-
-            @media (max-width: 500px) {
-                font-size: 9vmin;
-                width: 8vmin;
-            }*/
         }
 
         .power_ups {
-            /*background-color: red;*/
             display: flex;
             flex-grow: 1;
             font-size: 4vmin;
@@ -115,6 +134,7 @@ $first-step-min-width: 1020px;
             }
 
             i {
+                color: gold;
                 cursor: pointer;
                 width: 5.5vmin;
                 background-color: $main-bgcolor;
@@ -226,7 +246,7 @@ $first-step-min-width: 1020px;
 
                     &.fa-bomb, &.fa-history, &.fa-eraser {
                         font-size: 6vmin;
-                        color: $main-bgcolor;
+                        color: gold;
                     }
 
 

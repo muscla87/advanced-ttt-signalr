@@ -11,21 +11,47 @@
       .module('advancedTicTacToe')
       .controller('SingleGameController', singleGameController);
 
-    singleGameController.$inject = ['$scope', 'userIdentity'];
+    singleGameController.$inject = ['$scope', '$timeout', '$routeParams', 'gameRoomService', 'userIdentity', 'navigationService'];
 
-    function singleGameController($scope, userIdentity) {
+    function singleGameController($scope, $timeout, $routeParams, gameRoomService, userIdentity, navigationService) {
         /* jshint validthis:true */
         var vm = this;
+        var roomId = $routeParams.gameId;
+        vm.isBusy = false;
+        vm.toggleOptionsView = toggleOptionsView;
+        vm.leaveMatch = leaveMatch;
+        vm.currentView = 'game';
 
-        vm.bigCells = generateEmptyGameData();
-
-        vm.player1 = new Player(userIdentity.userName, 'fa-times', 'p1');
-        vm.player2 = new Player('Player 2', 'fa-circle-o', 'p2');
-
+        //#region match related things
+        vm.player1 = new Player('', 'fa-times', 'p1 hvr-ripple-out');
+        vm.player2 = new Player('', 'fa-circle-o', 'p2 hvr-ripple-out');
         vm.players = [vm.player1, vm.player2];
+        vm.bigCells = generateEmptyGameData();
         vm.activePlayerIndex = 0;
         vm.activeBigCellIndex = 4;
         vm.cellClicked = onCellClicked;
+        //#endregion
+
+        activate();
+
+
+        function activate() {
+            vm.isBusy = true;
+
+            gameRoomService.connect().then(function () {
+
+                gameRoomService.getRoomState(roomId).then(function (roomState) {
+                    if (roomState.UniqueId == roomId) {
+                        updateModel(roomState);
+                    }
+                    vm.isBusy = false;
+                });
+
+                gameRoomService.roomStateChanged = roomStateChanged;
+
+            });
+        }
+
 
         function onCellClicked(cell) {
 
@@ -37,17 +63,22 @@
                 }
 
                 cell.owner = activePlayer;
-                cell.playerIcon = activePlayer.icon;
+                cell.playerIcon = activePlayer.icon + " ";
 
                 for (var i = 0; i < 9; i++) {
-                    vm.bigCells[i].isActive = cell.localIndex == i;
-
+                    vm.bigCells[i].isActive = false;
                     vm.activePlayerIndex = (vm.activePlayerIndex + 1) % 2;
                 }
+                //if (vm.activeBigCellIndex != cell.localIndex) {
+                //    vm.activeBigCellIndex = cell.localIndex;
+                //    vm.bigCells[vm.activeBigCellIndex].isActive = true;
+                //}
+                //else {
                 vm.activeBigCellIndex = cell.localIndex;
+                $timeout(function () { vm.bigCells[vm.activeBigCellIndex].isActive = true; }, 500);
+                //}
             }
         }
-
 
         function generateEmptyGameData() {
 
@@ -83,6 +114,33 @@
 
             return bigCells;
         }
+
+
+        function toggleOptionsView() {
+            if (vm.currentView != 'options') {
+                vm.currentView = 'options';
+            }
+            else {
+                vm.currentView = 'game';
+            }
+        }
+        function leaveMatch() {
+            navigationService.navigateTo('home');
+        }
+
+        function roomStateChanged(newRoomState) {
+            if (newRoomState.UniqueId == roomId) {
+                $scope.$apply(function () {
+                    updateModel(newRoomState);
+                });
+            }
+        }
+
+        function updateModel(newRoomState) {
+            vm.player1.name = newRoomState.Player1 ? newRoomState.Player1.UserName : 'Waiting...';
+            vm.player2.name = newRoomState.Player2 ? newRoomState.Player2.UserName : 'Waiting...';
+        }
+
     }
 
     //player class

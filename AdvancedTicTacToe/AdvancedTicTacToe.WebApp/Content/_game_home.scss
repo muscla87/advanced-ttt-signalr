@@ -18,6 +18,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+
     h2 {
         margin: 0;
         padding: 5px;
@@ -39,42 +40,13 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
+
         span {
             line-height: 15px;
         }
 
 
-        .item_buttons {
-            flex-grow: 1;
-            text-align: right;
-            margin-right: 10px;
 
-            .small_button {
-                padding: 6px 10px;
-                margin-right: -6px;
-                width: 135px;
-
-                i {
-                    font-size: 20px;
-                }
-            }
-
-            .play_button {
-                background-color: $main-color;
-            }
-
-            .leave_button {
-                background-color: $log-off-color;
-            }
-
-            .options_button {
-                background-color: $options-color;
-            }
-
-            .login_button {
-                background-color: $log-in-color;
-            }
-        }
 
         i {
             margin: 5px;
@@ -82,5 +54,38 @@
             /*color: $main-color;*/
             border-color: 1px solid $main-color;
         }
+    }
+}
+
+
+.item_buttons {
+    flex-grow: 1;
+    text-align: right;
+    margin-right: 10px;
+
+    .small_button {
+        padding: 6px 10px;
+        margin-right: -6px;
+        width: 135px;
+
+        i {
+            font-size: 20px;
+        }
+    }
+
+    .play_button {
+        background-color: $main-color;
+    }
+
+    .leave_button {
+        background-color: $log-off-color;
+    }
+
+    .options_button {
+        background-color: $options-color;
+    }
+
+    .login_button {
+        background-color: $log-in-color;
     }
 }

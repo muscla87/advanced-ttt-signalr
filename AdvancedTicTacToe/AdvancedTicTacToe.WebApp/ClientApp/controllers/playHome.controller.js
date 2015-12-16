@@ -10,9 +10,9 @@
       .module('advancedTicTacToe')
       .controller('PlayHomeController', PlayHomeController);
 
-    PlayHomeController.$inject = ['$scope', '$http', '$templateCache', 'navigationService', 'usersService', 'userIdentity'/*, 'singleMatch'*/];
+    PlayHomeController.$inject = ['$scope', '$http', '$q', '$templateCache', 'navigationService', 'usersService', 'gameRoomService', 'userIdentity'/*, 'singleMatch'*/];
 
-    function PlayHomeController($scope, $http, $templateCache, navigationService, usersService, userIdentity/*, singleMatch*/) {
+    function PlayHomeController($scope, $http, $q, $templateCache, navigationService, usersService, gameRoomService, userIdentity/*, singleMatch*/) {
         var vm = this;
 
         vm.onlineUsers = [];
@@ -25,7 +25,12 @@
         activate();
 
         function activate() {
-            usersService.connect().then(function () {
+            vm.isBusy = true;
+
+            var connect1Promise = gameRoomService.connect();
+
+            var connect2Promise = usersService.connect().then(function () {
+
                 usersService.getConnectedUsers().then(function (users) {
                     vm.onlineUsers = convertToUsers(users);
                 });
@@ -44,6 +49,10 @@
                     });
                 };
             });
+
+            $q.all([connect1Promise, connect2Promise]).then(function () { vm.isBusy = false; });
+
+
         }
 
         function navigateTo(page) {
@@ -62,7 +71,27 @@
         };
 
         function playMatch(user) {
-            debugger;
+            if (!user) {
+                vm.isBusy = true;
+
+                gameRoomService.joinFreeRoomOrCreate().then(function (gameRoomState) {
+                    vm.isBusy = false;
+                    console.log(gameRoomState);
+                    navigationService.navigateTo("game/"+gameRoomState.UniqueId, { });
+                });
+
+            }
+            else {
+                if (user == 'reset') {
+                    vm.isBusy = true;
+                    gameRoomService.clearRooms().then(function () {
+                        vm.isBusy = false;
+                    });
+                }
+                else {
+                    console.log("Not yet implemented");
+                }
+            }
         }
 
         function convertToUsers(userNames) {

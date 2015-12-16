@@ -2,33 +2,63 @@
     Layout = null;
 }
 
-<div class="game_match">
-    <div class="game_info">
-        <div class="player_marker" ng-class="{p1: singleGameCtrl.activePlayerIndex == 0}">
-            <i class="player_icon fa fa-times"></i>
-            <span>{{singleGameCtrl.player1.name}}</span>
-            <div class="power_ups">
-                <i ng-repeat="powerUp in singleGameCtrl.player1.powerUps" class="fa {{powerUp}}"></i>
-            </div>
-        </div>
+<!-- Header buttons -->
+<span class="left_header_button">
+    <a class="small_button leave_button hvr-sweep-to-right red" ng-click="singleGameCtrl.leaveMatch()"><i class="fa fa-chevron-circle-left"></i> leave</a>
+</span>
 
-        <div class="player_marker" ng-class="{p2: singleGameCtrl.activePlayerIndex == 1}">
-            <i class="player_icon fa fa-circle-o" "></i>
-            <span>{{singleGameCtrl.player2.name}}</span>
-            <div class="power_ups">
-                <i ng-repeat="powerUp in singleGameCtrl.player2.powerUps" class="fa {{powerUp}}"></i>
-            </div>
-        </div>
+<span class="right_header_button">
+    <a class="small_button leave_button hvr-sweep-to-right gray" ng-click="singleGameCtrl.toggleOptionsView()"><i class="fa fa-cog"></i> options</a>
+</span>
+
+<div ng-switch="singleGameCtrl.currentView" style="width:100%" ng-hide="singleGameCtrl.isBusy">
+
+    <div class="game_options" ng-switch-when="options"> </div>
+
+    <div class="game_init" ng-switch-when="match_init">
 
     </div>
 
-    <div class="board_container">
-        <div class="board">
-            <div ng-repeat="bigCell in singleGameCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
-                <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-click="singleGameCtrl.cellClicked(smallCell)" ng-class="smallCell.owner.colorClass">
-                    <span class="fa" ng-class="smallCell.playerIcon"></span>
+
+    <div class="game_match" ng-switch-when="game">
+        <div class="game_info">
+
+            <div class="player_marker" ng-class="{'p1 hvr-ripple-out': singleGameCtrl.activePlayerIndex == 0}">
+                <i class="player_icon fa fa-times"></i>
+                <span>{{singleGameCtrl.player1.name}}</span>
+                <div class="power_ups">
+                    <i ng-repeat="powerUp in singleGameCtrl.player1.powerUps" class="fa hvr-wobble-to-top-right {{powerUp}}"></i>
+                </div>
+            </div>
+
+            <div class="player_marker" ng-class="{'p2 hvr-ripple-out': singleGameCtrl.activePlayerIndex == 1}">
+                <i class="player_icon fa fa-circle-o" "></i>
+                <span>{{singleGameCtrl.player2.name}}</span>
+                <div class="power_ups">
+                    <i ng-repeat="powerUp in singleGameCtrl.player2.powerUps" class="fa hvr-wobble-to-top-right {{powerUp}}"></i>
                 </div>
             </div>
         </div>
+
+        <div class="board_container">
+            <div class="board">
+                <div ng-repeat="bigCell in singleGameCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
+                    <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-click="singleGameCtrl.cellClicked(smallCell)" ng-class="smallCell.owner.colorClass">
+                        <span class="fa" ng-class="smallCell.playerIcon"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="menu_overlay" ng-show="singleGameCtrl.isBusy">
+    <div class="menu_container">
+        loading...
+        <div class="spinner">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+
     </div>
 </div>

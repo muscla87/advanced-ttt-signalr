@@ -184,6 +184,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\GameRoomsHub.cs" />
     <Compile Include="Hubs\UsersHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationConfig.cs" />
@@ -224,7 +225,7 @@
     <Content Include="ClientApp\controllers\singleGame.controller.js" />
     <Content Include="ClientApp\services\statistics.service.js" />
     <Content Include="ClientApp\services\users.service.js" />
-    <Content Include="ClientApp\services\singleMatch.service.js" />
+    <Content Include="ClientApp\services\gameRoom.service.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -241,10 +242,15 @@
     </Content>
     <Content Include="Content\_empty.scss" />
     <Content Include="Content\_common.scss" />
-    <Content Include="Content\_sweep-to-right.scss" />
+    <Content Include="Content\effects\_sweep-to-right.scss" />
     <Content Include="Content\_spinner.scss" />
     <Content Include="Content\_game_home.scss" />
     <Content Include="Content\_game_match.scss" />
+    <Content Include="Content\effects\_buzz-out.scss" />
+    <Content Include="Content\effects\_pop.scss" />
+    <Content Include="Content\effects\_push.scss" />
+    <Content Include="Content\effects\_wobble-top-to-right.scss" />
+    <Content Include="Content\effects\_ripple-out.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="ClientApp\game.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

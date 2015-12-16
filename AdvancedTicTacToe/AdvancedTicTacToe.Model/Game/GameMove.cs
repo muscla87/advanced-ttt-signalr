@@ -9,5 +9,7 @@ namespace AdvancedTicTacToe.Model.Game
 
         public int InnerIndex { get; set; }
 
+        public PowerUp? PowerUp { get; set; }
+
     }
 }
