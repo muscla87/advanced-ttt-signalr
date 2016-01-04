@@ -4,51 +4,186 @@
 
 <!-- Header buttons -->
 <span class="left_header_button">
-    <a class="small_button leave_button hvr-sweep-to-right red" ng-click="singleGameCtrl.leaveMatch()"><i class="fa fa-chevron-circle-left"></i> leave</a>
+    <a class="small_button leave_button hvr-sweep-to-right red" ng-click="singleGameCtrl.leaveRoom()"><i class="fa fa-chevron-circle-left"></i><span>leave</span></a>
 </span>
 
-<span class="right_header_button">
-    <a class="small_button leave_button hvr-sweep-to-right gray" ng-click="singleGameCtrl.toggleOptionsView()"><i class="fa fa-cog"></i> options</a>
-</span>
+@*<span class="right_header_button">
+        <a class="small_button leave_button hvr-sweep-to-right gray" ng-click="singleGameCtrl.toggleOptionsView()"><i class="fa fa-cog"></i><span>options</span></a>
+    </span>*@
 
-<div ng-switch="singleGameCtrl.currentView" style="width:100%" ng-hide="singleGameCtrl.isBusy">
+<div ng-switch="singleGameCtrl.currentView" style="width:100%; display: flex; margin-bottom: 20px;" ng-hide="singleGameCtrl.isBusy">
 
-    <div class="game_options" ng-switch-when="options"> </div>
-
-    <div class="game_init" ng-switch-when="match_init">
-
-    </div>
-
-
-    <div class="game_match" ng-switch-when="game">
+    <div class="match_init" ng-switch-when="match_init">
         <div class="game_info">
 
-            <div class="player_marker" ng-class="{'p1 hvr-ripple-out': singleGameCtrl.activePlayerIndex == 0}">
-                <i class="player_icon fa fa-times"></i>
-                <span>{{singleGameCtrl.player1.name}}</span>
-                <div class="power_ups">
-                    <i ng-repeat="powerUp in singleGameCtrl.player1.powerUps" class="fa hvr-wobble-to-top-right {{powerUp}}"></i>
+            <div class="player_marker">
+
+                <div class="player_name" ng-class="singleGameCtrl.player1.colorClass">
+                    {{singleGameCtrl.player1.name}}
+                    <div class="ready_banner" ng-show="singleGameCtrl.player1.isReady">
+                        ready!
+                    </div>
+                </div>
+                <div class="choose_group">
+                    <i class="arrow fa fa-arrow-left" ng-click="singleGameCtrl.prevIcon(0)" ng-class="{disabled: !singleGameCtrl.player1.allowedToEdit}"></i>
+                    <i class="player_choose fa" ng-class="singleGameCtrl.player1.iconCss"></i>
+                    <i class="arrow fa fa-arrow-right" ng-click="singleGameCtrl.nextIcon(0)" ng-class="{disabled: !singleGameCtrl.player1.allowedToEdit}"></i>
+                </div>
+                <div class="choose_group">
+                    <i class="arrow fa fa-arrow-left" ng-click="singleGameCtrl.prevColor(0)" ng-class="{disabled: !singleGameCtrl.player1.allowedToEdit}"></i>
+                    <span class="player_choose" ng-class="singleGameCtrl.player1.colorClass">&nbsp;</span>
+                    <i class="arrow fa fa-arrow-right" ng-click="singleGameCtrl.nextColor(0)" ng-class="{disabled: !singleGameCtrl.player1.allowedToEdit}"></i>
+                </div>
+                <div class="ready_button hvr-sweep-to-right" ng-show="singleGameCtrl.player1.allowedToEdit">
+                    <a ng-click="singleGameCtrl.setIsReady()">ready</a>
+                </div>
+
+            </div>
+
+            <div class="game_settings_marker">
+                <div class="game_setting">
+                    <div class="setting_header">Turn timer</div>
+                    <div class="choose_group">
+                        <i class="arrow fa fa-arrow-left" ng-click="singleGameCtrl.switchTimer(-1)" ng-class="{disabled: !singleGameCtrl.isRoomOwner}"></i>
+                        <span class="player_choose">{{singleGameCtrl.timer == 0 ? '&infin;' : singleGameCtrl.timer}}</span>
+                        <i class="arrow fa fa-arrow-right" ng-click="singleGameCtrl.switchTimer(1)" ng-class="{disabled: !singleGameCtrl.isRoomOwner}"></i>
+                    </div>
+                </div>
+                <div class="game_setting">
+                    <div class="setting_header">Power ups</div>
+                    <div class="choose_group">
+                        <i class="arrow fa fa-arrow-left" ng-click="singleGameCtrl.toggleUsePowerUps()" toggleUsePowerUps ng-class="{disabled: !singleGameCtrl.isRoomOwner}"></i>
+                        <span class="player_choose">{{singleGameCtrl.usePowerUps ? 'Y' : 'N'}} </span>
+                        <i class="arrow fa fa-arrow-right" ng-click="singleGameCtrl.toggleUsePowerUps()" ng-class="{disabled: !singleGameCtrl.isRoomOwner}"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="player_marker" ng-class="{'p2 hvr-ripple-out': singleGameCtrl.activePlayerIndex == 1}">
-                <i class="player_icon fa fa-circle-o" "></i>
-                <span>{{singleGameCtrl.player2.name}}</span>
-                <div class="power_ups">
-                    <i ng-repeat="powerUp in singleGameCtrl.player2.powerUps" class="fa hvr-wobble-to-top-right {{powerUp}}"></i>
+            <div class="player_marker">
+                <div class="player_name" ng-class="singleGameCtrl.player2.colorClass">
+                    {{singleGameCtrl.player2.name}}
+                    <div class="ready_banner" ng-show="singleGameCtrl.player2.isReady">
+                        ready!
+                    </div>
+                </div>
+                <div class="choose_group">
+                    <i class="arrow fa fa-arrow-left" ng-click="singleGameCtrl.prevIcon(1)" ng-class="{disabled: !singleGameCtrl.player2.allowedToEdit}"></i>
+                    <i class="player_choose fa" ng-class="singleGameCtrl.player2.iconCss"></i>
+                    <i class="arrow fa fa-arrow-right" ng-click="singleGameCtrl.nextIcon(1)" ng-class="{disabled: !singleGameCtrl.player2.allowedToEdit}"></i>
+                </div>
+                <div class="choose_group">
+                    <i class="arrow fa fa-arrow-left" ng-click="singleGameCtrl.prevColor(1)" ng-class="{disabled: !singleGameCtrl.player2.allowedToEdit}"></i>
+                    <span class="player_choose" ng-class="singleGameCtrl.player2.colorClass">&nbsp;</span>
+                    <i class="arrow fa fa-arrow-right" ng-click="singleGameCtrl.nextColor(1)" ng-class="{disabled: !singleGameCtrl.player2.allowedToEdit}"></i>
+                </div>
+                <div class="ready_button hvr-sweep-to-right" ng-show="singleGameCtrl.player2.allowedToEdit">
+                    <a ng-click="singleGameCtrl.setIsReady()">ready</a>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="board_container">
-            <div class="board">
-                <div ng-repeat="bigCell in singleGameCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
-                    <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-click="singleGameCtrl.cellClicked(smallCell)" ng-class="smallCell.owner.colorClass">
-                        <span class="fa" ng-class="smallCell.playerIcon"></span>
+    <div class="match_running" ng-switch-when="match_running">
+
+        <div class="match_overlay" ng-if="singleGameCtrl.matchEndResult">
+            <div class="match_dialog">
+                <span class="player_name">{{singleGameCtrl.matchEndResult}}</span>
+                <div style="text-align:center">
+                    <div class="small_button hvr-sweep-to-right">
+                        <a ng-click="singleGameCtrl.playAgain()">Play again</a>
+                    </div>
+                    <div class="leave_button hvr-sweep-to-right red">
+                        <a ng-click="singleGameCtrl.leaveRoom()">Leave</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        @*<div class="match_overlay" ng-if="singleGameCtrl.eraserPowerUpCtrl">
+                <div class="match_dialog">
+                    <span class="player_name">Select outer block to clear</span>
+                    <div class="big_cell active">
+                        <div ng-repeat="smallCell in singleGameCtrl.eraserPowerUpCtrl.currentBigCell.cells" class="small_cell"
+                             ng-class="smallCell.owner.colorClass"
+                             ng-click="singleGameCtrl.bombPowerUpCtrl.bombIndex = index">
+                            <span class="fa" ng-class="smallCell.getCssIcon()"></span>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div style="text-align:center">
+                        <div class="small_button hvr-sweep-to-right">
+                            <a ng-click="singleGameCtrl.applyEraserPowerUp()">Erase!</a>
+                        </div>
+                        <div class="leave_button hvr-sweep-to-right red">
+                            <a ng-click="singleGameCtrl.eraserPowerUpCtrl = null">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="game_info">
+            <div class="player_marker" ng-class="singleGameCtrl.activePlayerIndex == 0 ? singleGameCtrl.player1.colorClass : ''">
+                <i class="player_icon fa" ng-class="singleGameCtrl.player1.iconCss"></i>
+                <span class="player_name">{{singleGameCtrl.player1.name}}</span>
+                <div class="power_ups">
+                    <i ng-repeat="powerUp in singleGameCtrl.player1.powerUps"
+                       ng-click="singleGameCtrl.powerUpClicked($index, 0)"
+                       class="fa hvr-wobble-to-top-right {{singleGameCtrl.ConvertPowerUpToCssIcon(powerUp)}}"></i>
+                </div>
+            </div>
+
+            <div class="player_marker" ng-class="singleGameCtrl.activePlayerIndex == 1 ? singleGameCtrl.player2.colorClass : ''">
+                <i class="player_icon fa" ng-class="singleGameCtrl.player2.iconCss"></i>
+                <span class="player_name">{{singleGameCtrl.player2.name}}</span>
+                <div class="power_ups">
+                    <i ng-repeat="powerUp in singleGameCtrl.player2.powerUps"
+                       ng-click="singleGameCtrl.powerUpClicked($index, 1)"
+                       class="fa hvr-wobble-to-top-right {{singleGameCtrl.ConvertPowerUpToCssIcon(powerUp)}}"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="board_container" ng-if="!singleGameCtrl.bombPowerUpCtrl && !singleGameCtrl.eraserPowerUpCtrl">
+            <div class="board">
+                <div ng-repeat="bigCell in singleGameCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
+                    <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-click="singleGameCtrl.cellClicked(smallCell)" ng-class="smallCell.owner.colorClass">
+                        <span class="fa" ng-class="smallCell.getCssIcon()"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="board_container" ng-if="singleGameCtrl.bombPowerUpCtrl">
+            <div class="board">
+                <div ng-repeat="bigCell in singleGameCtrl.bombPowerUpCtrl.bigCells" class="big_cell active" ng-class="{'active_small': bigCell != singleGameCtrl.bombPowerUpCtrl.selectedBigCell}">
+                    <div class="bomb_confirm_button small_button hvr-sweep-to-right" ng-if="bigCell == singleGameCtrl.bombPowerUpCtrl.selectedBigCell">
+                        <a ng-click="singleGameCtrl.applyBombPowerUp()">Clear It!</a>
+                    </div>
+                    <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-mouseover="singleGameCtrl.cellClicked(smallCell)" ng-click="singleGameCtrl.cellClicked(smallCell)"
+                         ng-class="bigCell != singleGameCtrl.bombPowerUpCtrl.selectedBigCell ? smallCell.owner.colorClass : singleGameCtrl.players[singleGameCtrl.activePlayerIndex].colorClass">
+                        <span class="fa" style="color:white" ng-class="bigCell != singleGameCtrl.bombPowerUpCtrl.selectedBigCell ? smallCell.getCssIcon() : 'fa-bomb'"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="board_container" ng-if="singleGameCtrl.eraserPowerUpCtrl">
+            <div class="board">
+                <div ng-repeat="bigCell in singleGameCtrl.eraserPowerUpCtrl.bigCells" class="big_cell" ng-class="{active: bigCell.isActive}">
+
+                    <div ng-repeat="smallCell in bigCell.cells" class="small_cell" ng-mouseover="singleGameCtrl.cellClicked(smallCell, true)" ng-click="singleGameCtrl.cellClicked(smallCell)"
+                         ng-class="smallCell.toBeCleared ? singleGameCtrl.players[singleGameCtrl.activePlayerIndex].colorClass : smallCell.owner.colorClass">
+                        @*<div class="bomb_confirm_button small_button hvr-sweep-to-right" ng-if="bigCell == singleGameCtrl.eraserPowerUpCtrl.selectedBigCell">
+                            <a ng-click="singleGameCtrl.applyBombPowerUp()">Clear It!</a>
+                        </div>*@
+                        <span class="fa" style="color:white" ng-class="smallCell.toBeCleared ? 'fa-eraser' : smallCell.getCssIcon()"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

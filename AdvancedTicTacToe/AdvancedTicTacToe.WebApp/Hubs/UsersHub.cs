@@ -1,6 +1,8 @@
 ﻿using AdvancedTicTacToe.Model.User;
 using AdvancedTicTacToe.WebApp.Models;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using NLog;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +13,8 @@ namespace AdvancedTicTacToe.WebApp.Hubs
     //[Authorize]
     public class UsersHub : Hub
     {
+
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         //TODO: use IoC
         public static readonly IOnlineUsersStore OnlineUsersStore = new OnlineUsersStore();
@@ -29,25 +33,26 @@ namespace AdvancedTicTacToe.WebApp.Hubs
         {
 
             return OnlineUsersStore.GetConnectedUsers()
-                /*.Where(x =>
+            /*.Where(x =>
+        {
+
+            lock (x.ConnectionIds)
             {
 
-                lock (x.ConnectionIds)
-                {
+                return !x.ConnectionIds.Contains(Context.ConnectionId, StringComparer.InvariantCultureIgnoreCase);
+            }
 
-                    return !x.ConnectionIds.Contains(Context.ConnectionId, StringComparer.InvariantCultureIgnoreCase);
-                }
-
-            })*/
+        })*/
             .OrderBy(u => u.UserName)
             .Select(u => u.UserName);
         }
 
         public override Task OnConnected()
         {
-
             string userName = Context.User.GetSafeUserName(Context.Request);
             string connectionId = Context.ConnectionId;
+            logger.Debug("UsersHub OnConnected: {0}:{1}", userName, connectionId);
+
             if (!string.IsNullOrEmpty(userName))
             {
                 bool firstConnection = OnlineUsersStore.RegisterUserConnection(userName, connectionId);
@@ -66,9 +71,9 @@ namespace AdvancedTicTacToe.WebApp.Hubs
 
         public override Task OnDisconnected(bool stopCalled)
         {
-
             string userName = Context.User.GetSafeUserName(Context.Request);
             string connectionId = Context.ConnectionId;
+            logger.Debug("UsersHub OnDisconnected: {0}:{1}", userName, connectionId);
             if (!string.IsNullOrEmpty(userName))
             {
                 bool allConnectionsClosed = OnlineUsersStore.RegisterUserDisconnection(userName, connectionId);

@@ -3,8 +3,9 @@ namespace AdvancedTicTacToe.Model.Game
 {
     public enum PowerUp
     {
+        None,
         Eraser,
-        UndoTurn,
         BigBomb
+        //UndoTurn,
     }
 }

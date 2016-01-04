@@ -2,8 +2,13 @@
     font-family: segoe ui;
     font-family: 'Architects Daughter', cursive;
     color: $font-color;
+    cursor: default;
     user-select: none;
-    cursor:default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 *,
@@ -16,15 +21,24 @@
 
 html {
     height: 100%;
+    min-height: 100%;
 }
 
 body {
     height: 100%;
+    min-height: 100%;
     margin: 0;
+    background-color: $main-bgcolor;
 }
 
 span {
     font-size: 25px;
+}
+
+@media (max-width: 600px) {
+    span {
+        font-size: 21px;
+    }
 }
 
 a {
@@ -56,8 +70,6 @@ header.floating {
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
     z-index: 1000;
     background-color: $main-color;
     width: 100%;
@@ -71,9 +83,16 @@ footer {
     }
 }
 
+footer.floating {
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+}
+
 
 .view_container {
-    height: calc(100% - 57px);
+    /*height: calc(100% - 89px);*/
+    margin-bottom: 32px;
     background-color: $main-bgcolor;
     display: flex;
     width: 100%;

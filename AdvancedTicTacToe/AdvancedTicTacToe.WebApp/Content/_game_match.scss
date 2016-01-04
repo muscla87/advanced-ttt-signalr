@@ -12,24 +12,32 @@ $big-cell-bg-color: $dark-color;
 $big-cell-border-color-active: black;
 $big-cell-bg-color-active: white;
 
+$portrait-mobile-width: 400px;
 $first-step-min-width: 1020px;
 
 
 /*rgb(54, 154, 213)*/
 /*rgb(211, 55, 84)*/
 
-.p1 {
-    background-color: $p1_color !important;
+.player {
     transition-property: background-color;
     transition-duration: 0.5s;
     transition-timing-function: ease-in-out;
 }
 
-.p2 {
-    background-color: $p2_color !important;
-    transition-property: background-color;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out;
+.player_red {
+    @extend .player;
+    background-color: $player_red_color !important;
+}
+
+.player_yellow {
+    @extend .player;
+    background-color: $player_yellow_color !important;
+}
+
+.player_green {
+    @extend .player;
+    background-color: $player_green_color !important;
 }
 
 .game_options {
@@ -39,7 +47,6 @@ $first-step-min-width: 1020px;
 }
 
 .game_init {
-
 }
 
 .header_button {
@@ -51,6 +58,12 @@ $first-step-min-width: 1020px;
 
     a {
         padding: 2px 5px;
+    }
+
+    @media (max-width: $portrait-mobile-width) {
+        span {
+            font-size: 0;
+        }
     }
 }
 
@@ -64,8 +77,9 @@ $first-step-min-width: 1020px;
     right: 10px;
 }
 
-.game_match {
-    min-width: 450px;
+
+.match_running {
+    /*min-width: 450px;*/
     display: flex;
     width: 100%;
     display: flex;
@@ -74,82 +88,284 @@ $first-step-min-width: 1020px;
 
     @media (max-width: $first-step-min-width) {
         flex-direction: column;
-        justify-content: unset;
-    }
-}
-
-.game_info {
-    width: 50vmin;
-    min-width: 250px;
-    padding-top: 10px;
-    margin: 10px;
-
-    @media (max-width: $first-step-min-width) {
-        width: 100%;
-        display: flex;
-        margin: 0 auto;
-        justify-content: center;
+        justify-content: flex-start;
+        padding: 0;
     }
 
-    .player_marker {
-        height: 62px;
+    .match_overlay {
+        background-color: rgba(255, 255, 255, 0.43);
+        position: absolute;
+        top: 57px;
+        bottom: 32px;
+        left: 0;
+        right: 0;
+        z-index: 2000;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         align-items: center;
-        margin-bottom: 5px;
-        background-color: $big-cell-bg-color;
+        justify-content: center;
+
+        .match_dialog {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background-color: rgba(54, 154, 213, 0.98);
+            padding: 40px;
+        }
+
+        .player_name {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .small_button {
+            padding: 10px;
+            margin: 10px;
+            background-color: $main-color;
+            font-size: 1.5em;
+        }
+
+        .leave_button {
+            @extend .small_button;
+            background-color: $log-off-color;
+        }
+    }
+
+    .game_info {
+        width: 50vmin;
+        min-width: 250px;
+        padding-top: 10px;
+        margin: 10px;
 
         @media (max-width: $first-step-min-width) {
-            width: 50%;
+            width: 100%;
+            display: flex;
+            margin: 0 auto;
+            justify-content: center;
+        }
 
-            &:last-child {
+        .player_marker {
+            height: 62px;
+            display: flex;
+            /*flex-wrap: wrap;*/
+            align-items: center;
+            margin-bottom: 5px;
+            background-color: $big-cell-bg-color;
+
+            @media (max-width: $first-step-min-width) {
+                width: 50%;
+
+                &:last-child {
+                    flex-direction: row-reverse;
+
+                    .power_ups {
+                        flex-direction: row;
+                        margin-left: 5px;
+                    }
+                }
+            }
+
+            .player_name {
+                text-overflow: clip;
+                white-space: nowrap;
+                overflow: hidden;
+
+                @media (max-width: $portrait-mobile-width) {
+                    font-size: 0;
+                }
+            }
+
+
+            .player_icon {
+                margin-right: 5px;
+                margin-left: 5px;
+                text-align: center;
+                /*width: 7vmin;*/
+                font-size: 35px;
+            }
+
+            .power_ups {
+                display: flex;
+                flex-grow: 1;
+                font-size: 4vmin;
+                margin-right: 5px;
                 flex-direction: row-reverse;
+                align-items: center;
 
-                .power_ups {
-                    flex-direction: row;
-                    margin-left: 5px;
+                @media (max-width: $first-step-min-width) {
+                    padding: 5px;
+                }
+
+                i {
+                    color: gold;
+                    cursor: pointer;
+                    background-color: $main-bgcolor;
+                    border: 2px solid $main-bgcolor;
+                    padding: 5px;
+                    margin: 4px;
+                    text-align: center;
                 }
             }
         }
+    }
+}
+
+.match_init {
+    /*min-width: 450px;*/
+    display: flex;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+
+    @media (max-width: $first-step-min-width) {
+        /*flex-direction: column;*/
+        justify-content: flex-start;
+        padding: 0;
+    }
 
 
-        .player_icon {
-            margin-right: 5px;
-            margin-left: 5px;
-            text-align: center;
-            width: 7vmin;
-            font-size: 35px;
+    .game_info {
+        display: flex;
+        min-width: 250px;
+        padding-top: 10px;
+        margin: 10px;
+        /*width: 80%;*/
+        align-self: center;
+
+        @media (max-width: $portrait-mobile-width) {
+            flex-direction: column;
+            align-self: stretch;
+            margin: 0;
+            padding: 0;
         }
 
-        .power_ups {
-            display: flex;
-            flex-grow: 1;
-            font-size: 4vmin;
-            margin-right: 5px;
-            flex-direction: row-reverse;
-            align-items: center;
 
-            @media (max-width: $first-step-min-width) {
-                padding: 5px;
+        .player_marker {
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            flex-wrap: wrap;
+            width: 450px;
+            padding-top: 15px;
+
+            @media (max-width: $portrait-mobile-width) {
+                flex-direction: row;
+                width: auto;
+                justify-content: space-around;
+                padding-top: 0;
+                margin-top: 20px;
             }
 
-            i {
-                color: gold;
-                cursor: pointer;
-                width: 5.5vmin;
-                background-color: $main-bgcolor;
-                border: 2px solid $main-bgcolor;
-                padding: 5px;
-                margin: 4px;
+
+            .player_name {
+                font-size: 30px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
                 text-align: center;
+                align-self: stretch;
+                margin-bottom: 30px;
+                padding: 5px;
+                background-color: $big-cell-bg-color;
+
+                @media (max-width: $portrait-mobile-width) {
+                    text-align: left;
+                    width: 100%;
+                    margin-bottom: 0;
+                }
+            }
+
+            .ready_button {
+                text-align: center;
+                display: block;
+                background-color: $main-color;
+                padding: 10px;
+                font-size: 1.5em;
+                /*margin: 20px 20px;*/
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            .setting_header {
+                text-align: center;
+            }
+
+            .choose_group {
+                display: flex;
+                align-items: center;
+                margin-bottom: 30px;
+
+                @media (max-width: $portrait-mobile-width) {
+                    margin-top: 10px;
+                    margin-bottom: 0;
+                    margin-: 0;
+                }
+
+                .arrow {
+                    text-align: center;
+                    font-size: 40px;
+                    cursor: pointer;
+                    /*margin:10px;*/
+                    &.disabled {
+                        color: $font-color-disabled;
+                    }
+                }
+
+                .player_choose {
+                    text-align: center;
+                    line-height: 56px;
+                    width: 50px;
+                    height: 50px;
+                    margin: 0 10px;
+                    font-size: 50px;
+                }
+            }
+
+            .ready_banner {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                padding-left: 30px;
+                padding-right: 10px;
+                font-size: 20px;
+                top: 0;
+                /*left: 0;*/
+                right: 0;
+                bottom: 0;
+                /*width: 100%;*/
+                /*height: 80px;*/
+                background-color: #C5AF3C;
+                text-align: center;
+            }
+        }
+
+
+
+        .game_settings_marker {
+            @extend .player_marker;
+            align-self: center;
+
+            @media (max-width: $portrait-mobile-width) {
+                flex-direction: row;
+                width: auto;
+                justify-content: space-between;
+                order: -2;
+            }
+
+            .game_setting {
+                margin-left: 10px;
             }
         }
     }
 }
 
+
 .board_container {
     align-self: baseline;
-    margin: 10px;
+    /*margin: 10px;*/
     margin-top: 20px;
     display: flex;
 
@@ -179,127 +395,143 @@ $first-step-min-width: 1020px;
         flex-wrap: wrap;
         justify-content: space-around;
         align-items: center;
+    }
+}
 
-        .big_cell {
-            background: $big-cell-bg-color;
-            margin: 0;
-            width: 23.2vmin;
-            height: 23.2vmin;
+.big_cell {
+    background: $big-cell-bg-color;
+    margin: 0;
+    width: 23.2vmin;
+    height: 23.2vmin;
+
+
+    @media (max-width: $first-step-min-width) {
+        width: 26.5vmin;
+        height: 26.5vmin;
+    }
+
+    @media (max-width: 500px) {
+        width: 29.8vmin;
+        height: 29.8vmin;
+    }
+
+    display: flex;
+    flex-wrap: wrap;
+    border: 3px $big-cell-border-color solid;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 12px;
+    transition-property: transform;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+
+    @media (max-width: $first-step-min-width) {
+        border-radius: 9px;
+    }
+
+    @media (max-width: 500px) {
+        border-radius: 6px;
+    }
+
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+
+    .small_cell {
+        width: 33.33333%;
+        height: 33.33333%;
+        border: 3px $small-cell-border-color solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: $first-step-min-width) {
+            border: 2px $small-cell-border-color solid;
+        }
+
+        @media (max-width: 500px) {
+            border: 1px $small-cell-border-color solid;
+        }
+
+        text-align: center;
+        align-items: center;
+        color: white;
+
+        span {
+            color: white;
+            font-weight: bold;
+            font-size: 6vmin;
+
+            &.fa-bomb, &.fa-history, &.fa-eraser, &fa-clock-o {
+                font-size: 6vmin;
+                color: gold;
+            }
 
 
             @media (max-width: $first-step-min-width) {
-                width: 26.5vmin;
-                height: 26.5vmin;
+                font-size: 8vmin;
             }
 
             @media (max-width: 500px) {
-                width: 29.8vmin;
-                height: 29.8vmin;
-            }
-
-            display: flex;
-            flex-wrap: wrap;
-            border: 3px $big-cell-border-color solid;
-            justify-content: space-around;
-            align-items: center;
-            border-radius: 12px;
-            transition-property: transform;
-            transition-duration: 0.5s;
-            transition-timing-function: ease-out;
-
-            @media (max-width: $first-step-min-width) {
-                border-radius: 9px;
-            }
-
-            @media (max-width: 500px) {
-                border-radius: 6px;
-            }
-
-            position: relative;
-            overflow: hidden;
-            transform: translateZ(0);
-
-            .small_cell {
-                width: 33.33333%;
-                height: 33.33333%;
-                border: 3px $small-cell-border-color solid;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                @media (max-width: $first-step-min-width) {
-                    border: 2px $small-cell-border-color solid;
-                }
-
-                @media (max-width: 500px) {
-                    border: 1px $small-cell-border-color solid;
-                }
-
-                text-align: center;
-                align-items: center;
-                color: white;
-
-                span {
-                    color: white;
-                    font-weight: bold;
-                    font-size: 7vmin;
-
-                    &.fa-bomb, &.fa-history, &.fa-eraser {
-                        font-size: 6vmin;
-                        color: gold;
-                    }
-
-
-                    @media (max-width: $first-step-min-width) {
-                        font-size: 8vmin;
-                    }
-
-                    @media (max-width: 500px) {
-                        font-size: 9vmin;
-                    }
-                }
-            }
-
-            &.active {
-                z-index: 1000;
-                transform: scale(1.1);
-                border-color: $big-cell-border-color-active;
-                transition-property: transform;
-                transition-duration: 0.5s;
-                transition-timing-function: ease-out;
-
-                .small_cell:hover {
-                    cursor: pointer;
-                }
-
-                .small_cell {
-                    border-color: $small-cell-border-color-active;
-                }
-            }
-
-            &.active:before {
-                transform: scale(2);
-                background: $big-cell-bg-color-active !important;
-                transition-property: transform;
-                transition-duration: 0.5s;
-                transition-timing-function: ease-out;
-            }
-
-            &:before {
-                transform: scale(0);
-                content: "";
-                position: absolute;
-                z-index: -1;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: $big-cell-bg-color-active;
-                border-radius: 100%;
-                transition-property: transform;
-                transition-duration: 0.5s;
-                transition-timing-function: ease-out;
+                font-size: 9vmin;
             }
         }
+    }
+
+    &.active {
+        z-index: 1000;
+        transform: scale(1.1);
+        border-color: $big-cell-border-color-active;
+        transition-property: transform;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-out;
+
+        .small_cell:hover {
+            cursor: pointer;
+        }
+
+        .small_cell {
+            border-color: $small-cell-border-color-active;
+        }
+    }
+
+    &.active_small {
+        transform: scale(1);
+        z-index: 999;
+    }
+
+    &.active:before {
+        transform: scale(2);
+        background: $big-cell-bg-color-active;
+        transition-property: transform;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-out;
+    }
+
+    &:before {
+        transform: scale(0);
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /*background: $big-cell-bg-color-active;*/
+        border-radius: 100%;
+        transition-property: transform;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-out;
+    }
+
+    .bomb_confirm_button {
+        position: absolute;
+        z-index: 1000;
+        background: $main-bgcolor;
+        top:calc(50% - 15px);
+        left: 0;
+        right: 0;
+        text-align: center;
+        height: 30px;
     }
 }

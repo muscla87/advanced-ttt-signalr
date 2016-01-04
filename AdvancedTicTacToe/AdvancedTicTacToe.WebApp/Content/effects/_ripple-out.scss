@@ -50,11 +50,14 @@
 }
 
 
-.p1.hvr-ripple-out:before{
-    border: $p1-color solid 6px;
+.player_red.hvr-ripple-out:before{
+    border: $player_red_color solid 6px;
 }
 
+.player_yellow.hvr-ripple-out:before{
+    border: $player_yellow_color solid 6px;
+}
 
-.p2.hvr-ripple-out:before{
-    border: $p2-color solid 6px;
+.player_green.hvr-ripple-out:before{
+    border: $player_green_color solid 6px;
 }

@@ -19,14 +19,23 @@
             joinFreeRoomOrCreate: joinFreeRoomOrCreate,
             clearRooms: clearRooms,
             getRoomState: getRoomState,
+            setPlayerIcon: setPlayerIcon,
+            setPlayerColor: setPlayerColor,
+            setGameTurnTimer: setGameTurnTimer,
+            setGameUsePowerUps: setGameUsePowerUps,
+            setPlayerReady: setPlayerReady,
+            applyMove: applyMove,
+            leaveRoom: leaveRoom,
+            resetRoomForNewGame: resetRoomForNewGame,
             roomStateChanged: null, //callback function
         };
-
 
         var connectionDeferred = $q.defer();
 
         //declaring the hub connection
         var hub = new Hub('gameRoomsHub', {
+
+            useSharedConnection: false,
 
             //client side methods
             listeners: {
@@ -36,6 +45,14 @@
             //server side methods
             methods: ['joinFreeRoomOrCreate',
                       'getRoomState',
+                      'setPlayerIcon',
+                      'setPlayerColor',
+                      'setPlayerReady',
+                      'setGameTurnTimer',
+                      'setGameUsePowerUps',
+                      'applyMove',
+                      'leaveRoom',
+                      'resetRoomForNewGame',
                       'clearRooms'],
 
 
@@ -45,7 +62,7 @@
             },
 
             //specify a non default root
-            //rootPath: '/api
+            rootPath: AppName + "signalr",
 
             stateChanged: function (state) {
                 switch (state.newState) {
@@ -96,6 +113,63 @@
             return defer.promise;
         }
 
+        function setPlayerIcon(roomId, icon) {
+            var defer = $q.defer();
+            hub.setPlayerIcon(roomId, icon).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function setPlayerColor(roomId, color) {
+            var defer = $q.defer();
+            hub.setPlayerColor(roomId, color).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function setGameTurnTimer(roomId, timer) {
+            var defer = $q.defer();
+            hub.setGameTurnTimer(roomId, timer).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function setGameUsePowerUps(roomId, usePowerUps) {
+            var defer = $q.defer();
+            hub.setGameUsePowerUps(roomId, usePowerUps).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function setPlayerReady(roomId) {
+            var defer = $q.defer();
+            hub.setPlayerReady(roomId).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function applyMove(roomId, move) {
+            var defer = $q.defer();
+            hub.applyMove(roomId, move).done(function (arg) {
+                defer.resolve();
+            });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function leaveRoom(roomId) {
+            var defer = $q.defer();
+            hub.leaveRoom(roomId).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
+
+        function resetRoomForNewGame(roomId) {
+            var defer = $q.defer();
+            hub.resetRoomForNewGame(roomId).done(function () { defer.resolve(); });
+            //TODO: handle errors
+            return defer.promise;
+        }
 
         function roomStateChanged(res) {
             if (service.roomStateChanged) {

@@ -27,6 +27,8 @@
         //declaring the hub connection
         var hub = new Hub('usersHub', {
 
+            useSharedConnection: false,
+
             //client side methods
             listeners: {
                 'usersListUpdated': onlineUsersListChanged
@@ -42,7 +44,7 @@
             },
 
             //specify a non default root
-            //rootPath: '/api
+            rootPath: AppName + "signalr",
 
             stateChanged: function (state) {
                 switch (state.newState) {

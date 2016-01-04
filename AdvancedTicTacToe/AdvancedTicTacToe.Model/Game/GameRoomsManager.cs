@@ -31,7 +31,7 @@ namespace AdvancedTicTacToe.Model.Game
                 if (room == null)
                 {
                     //look for room with a free place
-                    room = rooms.Values.Where(r => r.HasFreeSeat()).OrderBy(r => r.PlayersCount).FirstOrDefault();
+                    room = rooms.Values.Where(r => r.HasFreeSeat()).OrderByDescending(r => r.PlayersCount).FirstOrDefault();
 
                     //otherwise create a new room (another player will eventually fill the other free seat)
                     if (room == null)

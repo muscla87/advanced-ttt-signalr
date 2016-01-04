@@ -8,6 +8,12 @@ namespace AdvancedTicTacToe.Model.Game
 
         public PlayerState State { get; internal set; }
 
-        public IEnumerable<PowerUp> PowerUps { get; internal set; }
+        public string Color { get; set; }
+
+        public string Icon { get; set; }
+
+        public bool IsRoomOwner { get; set; }
+
+        public bool IsReady { get; set; }
     }
 }
